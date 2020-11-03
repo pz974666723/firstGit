@@ -1,0 +1,9 @@
+main:main.o func.o
+	g++ -o ./Release/main main.o func.o
+func.o:func.cpp
+	g++ -O2 -Wall -c func.cpp
+main.o:main.cpp
+	g++ -O2 -Wall -c main.cpp
+.PHONY:clean
+clean:
+	-del *.o

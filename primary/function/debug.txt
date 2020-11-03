@@ -1,0 +1,6 @@
+main:main.o func.o
+	g++ -o ./Debug/main main.o func.o
+func.o:func.cpp
+	g++ -g -Wall -c func.cpp
+main.o:main.cpp
+	g++ -g -Wall -c main.cpp

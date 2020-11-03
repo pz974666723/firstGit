@@ -1,0 +1,61 @@
+step 1.创建管理类  workerManager.h
+    主要内容：
+        *与用户的沟通菜单界面
+        *对职工增删改查的操作
+        *与文件的读写交互
+
+step 2.菜单功能   workerManager.h
+    .h文件中声明  .cpp文件中实现
+
+step 3.退出功能   workerManager.h
+    switch exit(0);
+
+step 4.创建职工类  worker.h
+    *抽象职工类：
+        worker基类（纯虚函数）
+    *创建职工子类
+        多态测试：三个不同对象调用showInfo显示的内容不一样，即一个接口有多种形态，创建对象不同，其结果也不同
+
+step 5.添加职工   workerManager.h
+    如果想将所有不同种类的员工都放入到一个数组中，可以将所有员工的指针维护到一个数组里
+    如果想在程序中维护这个不定长度的数组，可以将数组创建到堆区，
+    并利用Worker **的指针维护（数组为指针数组————指针数组的本质是数组，二级指针是指针的指针）
+        创建指针数组是因为数组内要存放的是不同的子类，需要创建父类的指针存储这些子类
+    Worker** newSpace = new Worker* [newSize];//创建大小为newSize的数组
+    delete[] m_EmpArray;//释放操作
+        
+step 6.文件交互
+    写文件：
+        在workerManager.h中添加宏常量,并且包含头文件 fstream
+    读文件：
+        构造函数初始化数据的情况分为三种：
+            1.第一次使用，文件未创建             通过ifs.is_open()判断文件是否存在  赋值给bool m_FisEmpty
+            2.文件存在，但是数据被用户清空       通过 ifs>>ch;  ifs.eof()判断文件内是否有数据（eof为真即文件为空）
+            3.文件存在，并且保存职工的所有数据    
+                a.通过get_FNum()获取当前文件中人数
+                b.初始化数组 void init_Emp()
+            每一次添加员工后更新m_FisEmpty = false;只有在清空后更新m_FisEmpty = true;
+
+step 7.显示职工  void show_Emp();
+    通过多态m_EmpArray[i]->showInfo();显示
+
+step 8.删除职工  void Del_Emp()
+    int IsExist(int id);判断是否存在，该函数在后面修改中也会用到
+
+step 9.修改职工  void mod_Emp();
+    int IsExist(int id);判断是否存在
+
+step 10.查找职工  void find_Emp();
+    1.通过id查找  IsExist(int id)
+    2.通过姓名查找  bool flag = 0
+
+step 11.排序  void sort_Emp();
+    1.升序  冒泡法
+    2.降序  冒泡法
+    排序后通过show_Emp()展示出来
+    save()保存文件
+
+step 12.排序  void clean_Emp();
+    通过ios::trunc（如果文件存在则删除并重新创建）对文件进行清空
+    清空文件外还应该初始化指针
+
